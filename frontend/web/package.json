@@ -1,0 +1,14 @@
+{
+  "name": "abemce-frontend-web",
+  "version": "1.0.0",
+  "description": "Interface web responsiva para a plataforma ABEMCE",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l 5000",
+    "dev": "serve -s . -l 5000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

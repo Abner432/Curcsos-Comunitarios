@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Alunos - ABEMCE</title>
+  <link rel="stylesheet" href="/src/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">
+        <a href="/admin/index.html" class="logo-text" style="color: var(--white); font-size: 1.6rem;">
+          ABEM<span>CE</span> <span style="font-weight: 400; color: #a4b0be; font-size: 1.2rem;">Admin</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/index.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Início</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/add_course.html" class="sidebar-link">
+            <i class="fa-solid fa-plus-circle"></i>
+            <span>Cadastrar cursos</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/students.html" class="sidebar-link active">
+            <i class="fa-solid fa-users"></i>
+            <span>Gestão de alunos</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" onclick="logout()" class="sidebar-link" style="color: #ff6b6b;">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Sair da Conta</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Área de Conteúdo Principal -->
+    <main class="admin-content">
+      
+      <!-- Cabeçalho Administrativo -->
+      <section class="admin-header" style="margin-bottom: 25px;">
+        <div>
+          <h2>Gestão e Diretório de Alunos</h2>
+          <p style="color: var(--text-muted); margin-top: 5px;">Gerencie, pesquise e acompanhe detalhadamente o progresso de cada estudante matriculado.</p>
+        </div>
+      </section>
+
+      <!-- Barra de Filtros e Pesquisa -->
+      <section class="admin-section" style="margin-top: 0; padding: 20px; display: flex; gap: 20px; align-items: center;">
+        <div style="position: relative; flex: 1;">
+          <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 18px; top: 18px; color: var(--text-muted);"></i>
+          <input type="text" id="search-input" class="form-input" placeholder="Buscar aluno por nome, e-mail ou bairro..." style="padding-left: 50px; background-color: var(--light-bg); margin-bottom: 0;">
+        </div>
+        <div style="font-size: 0.95rem; font-weight: 600; color: var(--primary-blue); background-color: rgba(0, 154, 218, 0.08); padding: 12px 20px; border-radius: var(--radius-sm);">
+          Total: <span id="total-badge">0</span> alunos cadastrados
+        </div>
+      </section>
+
+      <!-- Diretório Completo de Alunos -->
+      <section class="admin-section">
+        <h3 class="section-title">Diretório de Alunos</h3>
+        
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Aluno</th>
+                <th style="width: 25%;">Contato / Identificação</th>
+                <th style="width: 15%;">Bairro (Fortaleza)</th>
+                <th style="width: 35%;">Cursos Inscritos & Progresso</th>
+              </tr>
+            </thead>
+            <tbody id="students-tbody">
+              <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                  <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 8px;"></i>
+                  <p>Carregando diretório de alunos...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <div id="toast-msg" class="toast"></div>
+
+  <script>
+    let allStudents = [];
+    const token = localStorage.getItem('abemce_token');
+    const user = JSON.parse(localStorage.getItem('abemce_user'));
+
+    if (!token || !user || user.role !== 'admin') {
+      localStorage.clear();
+      window.location.href = '/index.html';
+    }
+
+    // Carregar Diretório
+    async function loadDirectory() {
+      try {
+        const response = await fetch('/api/admin/students', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        allStudents = await response.json();
+        
+        document.getElementById('total-badge').textContent = allStudents.length;
+        renderDirectory(allStudents);
+
+      } catch (error) {
+        console.error(error);
+        showToast('Erro ao carregar diretório de alunos.', 'error');
+      }
+    }
+
+    // Renderizar tabela
+    function renderDirectory(students) {
+      const tbody = document.getElementById('students-tbody');
+
+      if (students.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
+              Nenhum aluno encontrado correspondente à pesquisa.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = students.map(student => {
+        // Formatar cursos
+        let enrollmentsHtml = '';
+        if (student.enrollments.length === 0) {
+          enrollmentsHtml = `<span style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;">Nenhuma matrícula ativa</span>`;
+        } else {
+          enrollmentsHtml = student.enrollments.map(e => `
+            <div style="margin-bottom: 12px; font-size: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px;">
+                <span>${e.title}</span>
+                <span style="color: ${e.progress >= 100 ? '#2e7d32' : 'var(--primary-blue)'};">${e.progress}%</span>
+              </div>
+              <div class="progress-bar" style="height: 6px;">
+                <div class="progress-fill" style="width: ${e.progress}%; background-color: ${e.progress >= 100 ? '#4caf50' : 'var(--primary-blue)'};"></div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        return `
+          <tr>
+            <td>
+              <div style="font-weight: 700; font-size: 1rem; color: var(--text-dark);">${student.name}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Registrado em: ${new Date(student.created_at).toLocaleDateString('pt-BR')}</div>
+            </td>
+            <td>
+              <div style="font-size: 0.9rem;"><i class="fa-regular fa-envelope" style="margin-right: 6px; color: var(--primary-blue);"></i>${student.email}</div>
+              <div style="font-size: 0.9rem; margin-top: 6px;"><i class="fa-regular fa-id-card" style="margin-right: 6px; color: var(--primary-orange);"></i>CPF: ${student.cpf}</div>
+            </td>
+            <td>
+              <span style="font-weight: 600; font-size: 0.9rem; background-color: #f1f2f6; padding: 6px 12px; border-radius: 4px; display: inline-block;">
+                ${student.neighborhood}
+              </span>
+            </td>
+            <td>
+              <div style="max-height: 150px; overflow-y: auto; padding-right: 5px;">
+                ${enrollmentsHtml}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Filtrar/Pesquisar em Tempo Real
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const searchVal = e.target.value.toLowerCase().trim();
+      
+      if (!searchVal) {
+        renderDirectory(allStudents);
+        return;
+      }
+
+      const filtered = allStudents.filter(student => 
+        student.name.toLowerCase().includes(searchVal) ||
+        student.email.toLowerCase().includes(searchVal) ||
+        student.neighborhood.toLowerCase().includes(searchVal) ||
+        student.cpf.includes(searchVal)
+      );
+
+      renderDirectory(filtered);
+    });
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = '/index.html';
+    }
+
+    function showToast(message, type = 'success') {
+      toastMsg.textContent = message;
+      toastMsg.className = `toast ${type}`;
+      toastMsg.style.display = 'block';
+      setTimeout(() => {
+        toastMsg.style.display = 'none';
+      }, 3000);
+    }
+
+    loadDirectory();
+  </script>
+</body>
+</html>

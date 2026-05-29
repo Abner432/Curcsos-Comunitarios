@@ -1,0 +1,10 @@
+{
+  "name": "abemce-frontend-mobile",
+  "version": "1.0.0",
+  "description": "Aplicativo Mobile ABEMCE - Estrutura de arquivos",
+  "main": "src/App.js",
+  "scripts": {
+    "start": "echo 'O projeto foi unificado em uma versão Web 100% responsiva (Mobile-First). Este diretório atua como estrutura organizacional conforme os requisitos.' && exit 0"
+  },
+  "dependencies": {}
+}

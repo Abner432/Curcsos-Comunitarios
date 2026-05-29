@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastrar Cursos - ABEMCE</title>
+  <link rel="stylesheet" href="/src/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">
+        <a href="/admin/index.html" class="logo-text" style="color: var(--white); font-size: 1.6rem;">
+          ABEM<span>CE</span> <span style="font-weight: 400; color: #a4b0be; font-size: 1.2rem;">Admin</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/admin/index.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Início</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/add_course.html" class="sidebar-link active">
+            <i class="fa-solid fa-plus-circle"></i>
+            <span>Cadastrar cursos</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/students.html" class="sidebar-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Gestão de alunos</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" onclick="logout()" class="sidebar-link" style="color: #ff6b6b;">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Sair da Conta</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Área de Conteúdo Principal -->
+    <main class="admin-content">
+      
+      <!-- Cabeçalho Administrativo -->
+      <section class="admin-header">
+        <div>
+          <h2>Cadastrar Novo Curso</h2>
+        </div>
+      </section>
+
+      <!-- Formulário de Cadastro de Curso (RF05) -->
+      <section class="card-form">
+        <h3 class="section-title" style="margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">
+          Ficha Técnica do Curso
+        </h3>
+
+        <form id="add-course-form">
+          <div class="form-group">
+            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; color: var(--text-dark);">
+              Título do Curso ou Programa
+            </label>
+            <input type="text" id="course-title" class="form-input" placeholder="Ex: Informática Corporativa" required style="background-color: var(--white);">
+          </div>
+
+          <div style="display: flex; gap: 15px; width: 100%;">
+            <div class="form-group" style="flex: 1.2;">
+              <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; color: var(--text-dark);">
+                Categoria Pedagógica
+              </label>
+              <select id="course-category" class="form-input" required style="background-color: var(--white); height: 55px;">
+                <option value="" disabled selected>Selecione a categoria</option>
+                <option value="Qualificação profissional">Qualificação profissional</option>
+                <option value="Música (Banda marcial)">Música (Banda marcial)</option>
+                <option value="Esporte">Esporte</option>
+                <option value="Artesanato">Artesanato</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 0.8;">
+              <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; color: var(--text-dark);">
+                Nº de Aulas Totais
+              </label>
+              <input type="number" id="course-lessons" class="form-input" placeholder="Ex: 10" min="1" max="100" required style="background-color: var(--white);">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; color: var(--text-dark);">
+              Descrição Pedagógica Completa
+            </label>
+            <textarea id="course-description" class="form-input" placeholder="Descreva os objetivos, ementa e competências desenvolvidas no curso..." required style="background-color: var(--white); min-height: 120px; resize: vertical; line-height: 1.5;"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; color: var(--text-dark);">
+              URL da Imagem de Capa (Opcional)
+            </label>
+            <input type="url" id="course-image" class="form-input" placeholder="https://images.unsplash.com/... (ou deixe em branco)" style="background-color: var(--white);">
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">
+              💡 Dica: Se deixar em branco, o sistema atribuirá automaticamente uma bela imagem com base na categoria escolhida.
+            </p>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="window.location.href='/admin/index.html'">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-primary" style="background-color: var(--primary-blue); margin-top: 0; width: auto; padding: 14px 30px;">
+              <i class="fa-solid fa-cloud-arrow-up"></i> CADASTRAR CURSO
+            </button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+
+  </div>
+
+  <div id="toast-msg" class="toast"></div>
+
+  <script>
+    const addCourseForm = document.getElementById('add-course-form');
+    const titleInput = document.getElementById('course-title');
+    const categoryInput = document.getElementById('course-category');
+    const lessonsInput = document.getElementById('course-lessons');
+    const descriptionInput = document.getElementById('course-description');
+    const imageInput = document.getElementById('course-image');
+    const toastMsg = document.getElementById('toast-msg');
+
+    // Verificar Autenticação
+    const token = localStorage.getItem('abemce_token');
+    const user = JSON.parse(localStorage.getItem('abemce_user'));
+
+    if (!token || !user || user.role !== 'admin') {
+      localStorage.clear();
+      window.location.href = '/index.html';
+    }
+
+    addCourseForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        title: titleInput.value.trim(),
+        category: categoryInput.value,
+        lessons_count: Number(lessonsInput.value),
+        description: descriptionInput.value.trim(),
+        image_url: imageInput.value.trim() || null
+      };
+
+      try {
+        const response = await fetch('/api/courses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showToast(data.error || 'Erro ao cadastrar curso.', 'error');
+          return;
+        }
+
+        showToast('Curso cadastrado com sucesso!', 'success');
+
+        // Limpar formulário
+        addCourseForm.reset();
+
+        // Redirecionar ao painel administrativo
+        setTimeout(() => {
+          window.location.href = '/admin/index.html';
+        }, 1200);
+
+      } catch (error) {
+        console.error(error);
+        showToast('Erro ao conectar ao servidor de API.', 'error');
+      }
+    });
+
+    // Efetuar Logout
+    function logout() {
+      localStorage.clear();
+      window.location.href = '/index.html';
+    }
+
+    function showToast(message, type = 'success') {
+      toastMsg.textContent = message;
+      toastMsg.className = `toast ${type}`;
+      toastMsg.style.display = 'block';
+      setTimeout(() => {
+        toastMsg.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

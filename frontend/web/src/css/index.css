@@ -1,0 +1,891 @@
+/* frontend/web/src/css/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
+
+:root {
+  --primary-blue: #009ada;
+  --primary-orange: #f05a28;
+  --dark-charcoal: #2f3640;
+  --light-bg: #f5f6fa;
+  --white: #ffffff;
+  --text-dark: #2c3e50;
+  --text-muted: #747d8c;
+  --border-color: #ced6e0;
+  --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--light-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+/* =========================================================================
+   ESTILO DA TELA DE LOGIN (Image 1)
+   ========================================================================= */
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.login-left {
+  flex: 1.1;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ilustração de background sutil */
+.login-left::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+.login-left-content {
+  max-width: 500px;
+  z-index: 2;
+}
+
+.login-left h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+  animation: slideIn 0.8s ease-out;
+}
+
+.login-left p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+
+.login-left h2 {
+  font-size: 1.8rem;
+  color: #ffca28; /* Cor amarela para dar destaque ao Portal de Qualificação */
+  margin-bottom: 15px;
+}
+
+.login-right {
+  flex: 0.9;
+  background-color: var(--light-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.login-card {
+  background: var(--white);
+  width: 100%;
+  max-width: 480px;
+  padding: 50px 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.logo-diamond {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 32px;
+  height: 32px;
+  transform: rotate(45deg);
+}
+
+.logo-diamond span {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.logo-diamond span:nth-child(1) { background-color: var(--primary-blue); }
+.logo-diamond span:nth-child(2) { background-color: #ffb300; }
+.logo-diamond span:nth-child(3) { background-color: #4caf50; }
+.logo-diamond span:nth-child(4) { background-color: var(--primary-orange); }
+
+.logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--dark-charcoal);
+}
+
+.logo-text span {
+  color: var(--primary-blue);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.login-header h3 {
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+}
+
+.login-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: var(--light-bg);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--primary-blue);
+  background-color: var(--white);
+  box-shadow: 0 0 0 4px rgba(0, 154, 218, 0.15);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--primary-orange);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #d8451b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(240, 90, 40, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.login-footer-links {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.login-footer-links a {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.login-footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================================
+   ESTILO DA ÁREA DO ALUNO (Image 3)
+   ========================================================================= */
+.app-header {
+  background-color: var(--white);
+  box-shadow: var(--shadow-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.nav-links a.active {
+  color: var(--primary-blue);
+}
+
+.nav-links a:hover {
+  background-color: var(--light-bg);
+  color: var(--primary-blue);
+}
+
+.btn-logout {
+  background-color: #ffebee;
+  color: #c62828 !important;
+  font-weight: 700 !important;
+}
+
+.btn-logout:hover {
+  background-color: #c62828 !important;
+  color: var(--white) !important;
+}
+
+.student-main {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex: 1;
+}
+
+.student-hero {
+  margin-bottom: 40px;
+}
+
+.student-hero h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.student-hero p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Filtros por Categoria */
+.category-filters {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  margin-bottom: 40px;
+  scrollbar-width: none;
+}
+
+.category-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pill {
+  padding: 12px 24px;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.category-pill.active {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border-color: var(--primary-blue);
+  box-shadow: 0 4px 15px rgba(0, 154, 218, 0.25);
+}
+
+.category-pill:hover:not(.active) {
+  background-color: #eaeaea;
+  transform: translateY(-2px);
+}
+
+/* Grid de Cursos */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.course-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.course-img-wrapper {
+  position: relative;
+  height: 220px;
+  width: 100%;
+  background-color: #e2e8f0;
+  overflow: hidden;
+}
+
+.course-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.course-card:hover .course-img {
+  scale: 1.05;
+}
+
+.course-tag {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: #ffb300;
+  color: var(--text-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.course-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.course-title {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.course-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  flex: 1;
+}
+
+.btn-card {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-align: center;
+  background-color: var(--primary-orange);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-card:hover {
+  background-color: #d8451b;
+}
+
+.btn-card.enrolled {
+  background-color: #ebfef3;
+  color: #2e7d32;
+  cursor: default;
+}
+
+/* Progresso do Aluno */
+.progress-container {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  background-color: #e2e8f0;
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background-color: #4caf50;
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* =========================================================================
+   ESTILO DO PAINEL DO ADMIN (Image 2)
+   ========================================================================= */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 280px;
+  background-color: var(--dark-charcoal);
+  color: var(--white);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.sidebar-logo {
+  margin-bottom: 50px;
+  padding: 0 15px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: var(--transition);
+  color: #a4b0be;
+}
+
+.sidebar-link i {
+  font-size: 1.2rem;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link.active {
+  background-color: var(--primary-blue);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.admin-content {
+  flex: 1;
+  margin-left: 280px;
+  padding: 50px;
+  background-color: var(--light-bg);
+  min-height: 100vh;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.admin-header h2 {
+  font-size: 2rem;
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary-orange);
+  color: var(--white);
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-export:hover {
+  background-color: #d8451b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(240, 90, 40, 0.2);
+}
+
+/* Cards de Estatísticas */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.metric-card {
+  background-color: var(--white);
+  padding: 25px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.metric-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.metric-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Tabelas */
+.admin-section {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-light);
+  padding: 30px;
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  padding: 16px 20px;
+  background-color: var(--light-bg);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.admin-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.admin-table tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+/* =========================================================================
+   FORMULÁRIOS DE CADASTRO (Curso e Aluno)
+   ========================================================================= */
+.card-form {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 40px;
+  box-shadow: var(--shadow-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-secondary {
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  background-color: #e2e8f0;
+  color: var(--text-dark);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e1;
+}
+
+/* Componente de Aula Interativo na Área do Aluno */
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.lesson-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: var(--light-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.lesson-item:hover {
+  background-color: var(--white);
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-light);
+}
+
+.lesson-item.completed {
+  border-left: 4px solid #4caf50;
+  background-color: #f1fcf4;
+}
+
+.lesson-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Notificações Toasts */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 16px 25px;
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  animation: slideUp 0.3s ease-out;
+  display: none;
+}
+
+.toast.success { background-color: #2e7d32; }
+.toast.error { background-color: #c62828; }
+
+/* =========================================================================
+   KEYFRAMES / ANIMAÇÕES
+   ========================================================================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================================
+   MEDIA QUERIES (RESPONSIVIDADE COMPLETA)
+   ========================================================================= */
+
+/* Tablets / Dispositivos médios */
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .login-left {
+    padding: 40px;
+    flex: none;
+    min-height: auto;
+    text-align: center;
+  }
+  
+  .login-left-content {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .login-left h1 {
+    font-size: 2.2rem;
+  }
+  
+  .login-left p {
+    margin-bottom: 20px;
+  }
+  
+  .login-right {
+    padding: 40px 20px;
+  }
+  
+  .admin-sidebar {
+    width: 80px;
+    padding: 30px 10px;
+  }
+  
+  .sidebar-logo {
+    display: none;
+  }
+  
+  .sidebar-link {
+    padding: 15px;
+    justify-content: center;
+  }
+  
+  .sidebar-link span {
+    display: none;
+  }
+  
+  .admin-content {
+    margin-left: 80px;
+    padding: 30px;
+  }
+}
+
+/* Dispositivos Móveis */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .student-hero h2 {
+    font-size: 1.8rem;
+  }
+  
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .btn-export {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .admin-section {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 30px 20px;
+  }
+  
+  .login-header h3 {
+    font-size: 1.4rem;
+  }
+  
+  .form-input {
+    padding: 14px 16px;
+  }
+}

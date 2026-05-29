@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Qualificação - ABEMCE</title>
+  <link rel="stylesheet" href="/src/css/index.css">
+  <!-- Ícones do FontAwesome para fidelidade visual -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="login-container">
+    
+    <!-- Painel da Esquerda (Azul com Informações) -->
+    <div class="login-left">
+      <div class="login-left-content">
+        <h1>ABEMCE</h1>
+        <p>Transformando vidas e construindo futuros desde 1988 em Fortaleza/CE.</p>
+        
+        <h2>Portal de qualificação</h2>
+        <p>Acesse para se inscrever em cursos, programas de música, esporte e jovem aprendiz.</p>
+      </div>
+    </div>
+
+    <!-- Painel da Direita (Card de Login) -->
+    <div class="login-right">
+      <div class="login-card">
+        
+        <!-- Logo ABEMCE -->
+        <div class="login-logo">
+          <div class="logo-diamond">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo-text">abemce</div>
+        </div>
+
+        <div class="login-header">
+          <h3 id="portal-title">Seja bem-vindo</h3>
+          <p id="portal-subtitle">Faça login para continuar sua jornada de aprendizado.</p>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form id="login-form" style="width: 100%;">
+          <div class="form-group">
+            <input type="text" id="emailOrCpf" class="form-input" placeholder="E-mail ou CPF" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <input type="password" id="password" class="form-input" placeholder="Sua senha" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn-primary" id="btn-submit">ENTRAR NO PORTAL</button>
+        </form>
+
+        <!-- Links e Toggle de Tipo de Conta -->
+        <div class="login-footer-links">
+          <p id="toggle-container">Faz parte da equipe? <a href="#" id="link-admin-toggle">Acesso Administrativo</a></p>
+          <p style="margin-top: 15px;">Novo por aqui? <a href="/register.html">Crie sua conta de aluno</a></p>
+        </div>
+
+        <!-- Botões de Auto-preenchimento Demo (Facilitador de testes solicitado pelo usuário) -->
+        <div style="margin-top: 30px; padding: 15px; border: 1.5px dashed var(--primary-blue); border-radius: var(--radius-sm); background-color: rgba(0, 154, 218, 0.05); width: 100%; text-align: center;">
+          <p style="font-size: 0.85rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 10px;">
+            ⚡ Demonstrador Rápido (Contas de Teste)
+          </p>
+          <div style="display: flex; gap: 10px; justify-content: center;">
+            <button onclick="autofill('aluno')" style="flex: 1; padding: 8px; font-size: 0.8rem; background-color: var(--white); border: 1px solid var(--primary-blue); border-radius: 4px; color: var(--primary-blue); font-weight: 600; cursor: pointer; transition: 0.2s;">
+              Entrar como Aluno
+            </button>
+            <button onclick="autofill('admin')" style="flex: 1; padding: 8px; font-size: 0.8rem; background-color: var(--white); border: 1px solid var(--primary-orange); border-radius: 4px; color: var(--primary-orange); font-weight: 600; cursor: pointer; transition: 0.2s;">
+              Entrar como Admin
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Componente Toast para avisos -->
+  <div id="toast-msg" class="toast"></div>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const emailOrCpfInput = document.getElementById('emailOrCpf');
+    const passwordInput = document.getElementById('password');
+    const linkAdminToggle = document.getElementById('link-admin-toggle');
+    const portalTitle = document.getElementById('portal-title');
+    const portalSubtitle = document.getElementById('portal-subtitle');
+    const toggleContainer = document.getElementById('toggle-container');
+    const btnSubmit = document.getElementById('btn-submit');
+    const toastMsg = document.getElementById('toast-msg');
+
+    let isAdminMode = false;
+
+    // Toggle administrativo
+    linkAdminToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      isAdminMode = !isAdminMode;
+      if (isAdminMode) {
+        portalTitle.textContent = 'Acesso Administrativo';
+        portalSubtitle.textContent = 'Faça login com suas credenciais de gestor.';
+        toggleContainer.innerHTML = 'Área do estudante? <a href="#" id="link-admin-toggle">Acesso Aluno</a>';
+        btnSubmit.textContent = 'ACESSAR PAINEL GESTOR';
+        btnSubmit.style.backgroundColor = 'var(--primary-blue)';
+      } else {
+        portalTitle.textContent = 'Seja bem-vindo';
+        portalSubtitle.textContent = 'Faça login para continuar sua jornada de aprendizado.';
+        toggleContainer.innerHTML = 'Faz parte da equipe? <a href="#" id="link-admin-toggle">Acesso Administrativo</a>';
+        btnSubmit.textContent = 'ENTRAR NO PORTAL';
+        btnSubmit.style.backgroundColor = 'var(--primary-orange)';
+      }
+      
+      // Re-associa o evento de clique após recriar o link dinamicamente
+      document.getElementById('link-admin-toggle').addEventListener('click', arguments.callee);
+    });
+
+    // Auto-preenchimento facilitado
+    function autofill(role) {
+      if (role === 'aluno') {
+        emailOrCpfInput.value = 'aluno@abemce.org.br';
+        passwordInput.value = 'aluno123';
+        if (isAdminMode) linkAdminToggle.click();
+      } else {
+        emailOrCpfInput.value = 'admin@abemce.org.br';
+        passwordInput.value = 'admin123';
+        if (!isAdminMode) linkAdminToggle.click();
+      }
+      showToast('Campos preenchidos! Clique em Entrar.', 'success');
+    }
+
+    // Gerenciar Envio do Formulário
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const payload = {
+        emailOrCpf: emailOrCpfInput.value.trim(),
+        password: passwordInput.value
+      };
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showToast(data.error || 'Credenciais inválidas. Tente novamente!', 'error');
+          return;
+        }
+
+        // Salvar token e dados do usuário
+        localStorage.setItem('abemce_token', data.token);
+        localStorage.setItem('abemce_user', JSON.stringify(data.user));
+
+        showToast('Login efetuado! Redirecionando...', 'success');
+
+        // Redirecionamento com base no papel do usuário
+        setTimeout(() => {
+          if (data.user.role === 'admin') {
+            window.location.href = '/admin/index.html';
+          } else {
+            window.location.href = '/student/index.html';
+          }
+        }, 1000);
+
+      } catch (err) {
+        showToast('Erro de conexão com a API. Verifique se o servidor está rodando!', 'error');
+        console.error(err);
+      }
+    });
+
+    // Função Toast
+    function showToast(message, type = 'success') {
+      toastMsg.textContent = message;
+      toastMsg.className = `toast ${type}`;
+      toastMsg.style.display = 'block';
+      setTimeout(() => {
+        toastMsg.style.display = 'none';
+      }, 3000);
+    }
+
+    // Verificar se já está logado
+    const cachedUser = localStorage.getItem('abemce_user');
+    const cachedToken = localStorage.getItem('abemce_token');
+    if (cachedUser && cachedToken) {
+      const user = JSON.parse(cachedUser);
+      if (user.role === 'admin') {
+        window.location.href = '/admin/index.html';
+      } else {
+        window.location.href = '/student/index.html';
+      }
+    }
+  </script>
+</body>
+</html>
