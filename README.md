@@ -161,4 +161,4 @@ David Khauan Santos Lima, Matricula: 2323791
 Abner Ferreira Costa, Matricula: 2323829
 Mário Sergio Cordeiro Lima, Matricula: 2327073
 Eric Vinicius Dias Aquino, Matricula: 2326242
-Matheus Ferreira de Queiroz Alves, Matricula: 
+Matheus Ferreira de Queiroz Alves, Matricula: 2323824
