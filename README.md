@@ -1,6 +1,6 @@
 # Portal de Qualificação e Cursos Estudantis - ABEMCE
 
-Este projeto é uma plataforma de cursos estudantis completa para a **ABEMCE**, desenvolvida estritamente de acordo com os requisitos estabelecidos e a identidade visual fornecida nos prints oficiais. 
+Este projeto é uma plataforma de cursos estudantis completa chamada **ABEMCE**, desenvolvida estritamente de acordo com os requisitos estabelecidos. 
 
 A plataforma possui dois tipos de usuários:
 * **Administrador:** Cadastra novos cursos, acompanha estatísticas pedagógicas em tempo real, visualiza as inscrições mais recentes e exporta relatórios pedagógicos.
@@ -10,7 +10,7 @@ A plataforma possui dois tipos de usuários:
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Frontend:** HTML5 estrutural, CSS3 customizado (layout responsivo com Flexbox, Grid e micro-animações premium) e Vanilla Javascript para consumo de API e manipulação dinâmica do DOM.
+* **Frontend:** HTML5 estrutural, CSS3 customizado, Javascript para consumo de API e manipulação dinâmica do DOM.
 * **Backend:** Node.js, Express, JWT (para proteção de rotas e sessões baseadas em papéis) e CORS.
 * **Banco de Dados:** Integração completa com **MySQL** com suporte de **Fallback Híbrido** inteligente (em memória).
 
@@ -18,10 +18,10 @@ A plataforma possui dois tipos de usuários:
 
 ## ⚡ Bancos de Dados Híbrido (Modo Simulado Automático)
 
-Para facilitar a correção e o teste imediato da plataforma sem requerer a instalação local e alimentação de um banco MySQL:
+Para facilitar o teste imediato da plataforma sem requerer a instalação local e alimentação de um banco MySQL, optamos por esta estratégia:
 * O backend **tenta se conectar ao MySQL** utilizando as credenciais fornecidas no arquivo de configuração do sistema ou ambiente.
 * Caso a conexão com o MySQL falhe (por exemplo, se o servidor MySQL não estiver rodando no momento), o sistema **ativa de forma transparente o Modo Simulado (In-Memory)**! 
-* Este modo carrega uma base de dados em memória semeada com qualificações realistas, matrículas e contas fake prontas para uso. O cadastro de novos alunos, login, inscrição em cursos e atualizações de progresso funcionam perfeitamente no navegador neste modo!
+* Este modo carrega uma base de dados em memória semeada com qualificações realistas, matrículas e contas fake prontas para uso. O cadastro de novos alunos, login, inscrição em cursos e atualizações de progresso funcionam no navegador neste modo, assim facilitando a usabilidade de como seria esse projeto funcionando em um cenário real!
 
 ### 🔑 Contas Fake de Teste (Semeador)
 Você pode utilizar as seguintes credenciais na tela de login para explorar a plataforma:
@@ -38,7 +38,7 @@ Você pode utilizar as seguintes credenciais na tela de login para explorar a pl
 
 ## 📂 Estrutura de Pastas do Projeto
 
-O projeto foi estruturado seguindo exatamente o modelo organizacional proposto:
+O projeto foi estruturado seguindo exatamente o modelo organizacional proposto pelo nosso professor:
 
 ```
 projeto/ (ABENCE/)
@@ -102,6 +102,7 @@ Abra o terminal no diretório do backend (`projeto/backend`) e execute:
 ```bash
 npm install
 ```
+Ou pode usar "npm i".
 
 ### Passo 2: Iniciar o Servidor
 Com as dependências instaladas, inicie o servidor:
@@ -152,3 +153,12 @@ Para rodar os testes:
    npm test
    ```
 3. O console exibirá a validação passo a passo da criação de usuários, validação de unicidade de CPF, criptografia de hashes, criação de cursos (RF05), matrículas de alunos (RF04) e retorno dos dados no painel gestor (RF06).
+
+## Criadores do projeto ABEMCE:
+Este projeto foi feito pelos alunos do curso Análise e Desenvolvimento de Sistemas da UNIFOR, sendo eles:
+
+David Khauan Santos Lima, Matricula: 2323791
+Abner Ferreira Costa, Matricula: 2323829
+Mário Sergio Cordeiro Lima, Matricula: 2327073
+Eric Vinicius Dias Aquino, Matricula: 2326242
+Matheus Ferreira de Queiroz Alves, Matricula: 

@@ -1,20 +1,14 @@
-// backend/src/routes/course.routes.js
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const { authenticateToken, authorizeRoles } = require('../middleware/auth');
 
-/**
- * 1. Listar Cursos Disponíveis (RF03)
- * Acessível por qualquer usuário logado
- */
 router.get('/', authenticateToken, async (req, res) => {
   const { category } = req.query;
 
   try {
     let courses = await db.query('SELECT * FROM courses ORDER BY title ASC');
 
-    // Filtro por categoria se fornecido
     if (category && category !== 'Todos') {
       courses = courses.filter(c => c.category.toLowerCase() === category.toLowerCase());
     }
@@ -26,10 +20,6 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-/**
- * 2. Cadastrar Novo Curso (RF05)
- * Restrito apenas a administradores
- */
 router.post('/', authenticateToken, authorizeRoles('admin'), async (req, res) => {
   const { title, category, description, image_url, lessons_count } = req.body;
 
@@ -55,22 +45,16 @@ router.post('/', authenticateToken, authorizeRoles('admin'), async (req, res) =>
   }
 });
 
-/**
- * 3. Inscrever-se em Curso (RF04)
- * Acessível apenas a alunos (students)
- */
 router.post('/:id/enroll', authenticateToken, authorizeRoles('student'), async (req, res) => {
   const courseId = req.params.id;
   const userId = req.user.id;
 
   try {
-    // Verificar se o curso existe
     const courses = await db.query('SELECT id FROM courses WHERE id = ?', [courseId]);
     if (courses.length === 0) {
       return res.status(404).json({ error: 'Curso não encontrado!' });
     }
 
-    // Tentar realizar a inscrição
     const result = await db.query(
       'INSERT INTO enrollments (user_id, course_id, progress, status) VALUES (?, ?, 0, "active")',
       [userId, courseId]
@@ -84,7 +68,6 @@ router.post('/:id/enroll', authenticateToken, authorizeRoles('student'), async (
     if (error.message && error.message.includes('já inscrito')) {
       return res.status(400).json({ error: 'Você já está matriculado neste curso!' });
     }
-    // Tratamento genérico caso use MySQL com chave duplicada
     if (error.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ error: 'Você já está matriculado neste curso!' });
     }
@@ -93,10 +76,6 @@ router.post('/:id/enroll', authenticateToken, authorizeRoles('student'), async (
   }
 });
 
-/**
- * 4. Listar Minhas Inscrições
- * Retorna os cursos em que o aluno logado está matriculado (com progresso)
- */
 router.get('/my-enrollments', authenticateToken, authorizeRoles('student'), async (req, res) => {
   const userId = req.user.id;
 
@@ -116,10 +95,6 @@ router.get('/my-enrollments', authenticateToken, authorizeRoles('student'), asyn
   }
 });
 
-/**
- * 5. Atualizar Progresso de Matrícula
- * Permite ao aluno marcar aulas/progresso no curso
- */
 router.put('/my-enrollments/:id/progress', authenticateToken, authorizeRoles('student'), async (req, res) => {
   const enrollmentId = req.params.id;
   const userId = req.user.id;
