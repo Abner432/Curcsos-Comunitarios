@@ -1,177 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criar Conta de Aluno - ABEMCE</title>
-  <link rel="stylesheet" href="/src/css/index.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-  <div class="login-container">
-    
-    <!-- Painel da Esquerda (Azul Informativo) -->
-    <div class="login-left" style="background-color: var(--primary-orange);">
-      <div class="login-left-content">
-        <h1>Junte-se à ABEMCE</h1>
-        <p>Inicie hoje mesmo a sua qualificação e prepare-se para as melhores oportunidades de mercado de trabalho em Fortaleza.</p>
-        
-        <h2>Cursos 100% Gratuitos</h2>
-        <p>Aulas práticas de informática, costura, esportes e formação musical com instrumentos oficiais.</p>
-      </div>
-    </div>
-
-    <!-- Painel da Direita (Card de Registro) -->
-    <div class="login-right">
-      <div class="login-card" style="max-width: 520px; padding: 40px 30px;">
-        
-        <!-- Logo ABEMCE -->
-        <div class="login-logo" style="margin-bottom: 25px;">
-          <div class="logo-diamond">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="logo-text">abemce</div>
-        </div>
-
-        <div class="login-header" style="margin-bottom: 20px;">
-          <h3>Crie sua conta</h3>
-          <p>Preencha os dados abaixo para iniciar sua jornada estudantil.</p>
-        </div>
-
-        <!-- Formulário de Cadastro -->
-        <form id="register-form" style="width: 100%;">
-          <div class="form-group">
-            <input type="text" id="name" class="form-input" placeholder="Nome completo" required>
-          </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/src/css/index.css">
+    <title>Criar Conta de Aluno - ABEMCE</title>
+  </head>
+  
+  <body>
+    <div class="login-container">
+      <div class="login-left" style="background-color: var(--primary-orange);">
+        <div class="login-left-content">
+          <h1>Junte-se à ABEMCE</h1>
+          <p>Inicie hoje mesmo a sua qualificação e prepare-se para as melhores oportunidades de mercado de trabalho em Fortaleza.</p>
           
-          <div style="display: flex; gap: 15px; width: 100%;">
-            <div class="form-group" style="flex: 1;">
-              <input type="email" id="email" class="form-input" placeholder="E-mail" required>
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <input type="text" id="cpf" class="form-input" placeholder="CPF (Apenas números)" required maxlength="14">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <input type="text" id="neighborhood" class="form-input" placeholder="Bairro onde mora em Fortaleza (ex: Mondubim, Maraponga)" required>
-          </div>
-
-          <div style="display: flex; gap: 15px; width: 100%;">
-            <div class="form-group" style="flex: 1;">
-              <input type="password" id="password" class="form-input" placeholder="Sua senha" required>
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <input type="password" id="confirm-password" class="form-input" placeholder="Confirme a senha" required>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-primary" style="background-color: var(--primary-orange);">CADASTRAR E ENTRAR</button>
-        </form>
-
-        <div class="login-footer-links" style="margin-top: 20px;">
-          <p>Já possui uma conta? <a href="/index.html" style="color: var(--primary-orange);">Faça login aqui</a></p>
+          <h2>Cursos 100% Gratuitos</h2>
+          <p>Aulas práticas de informática, costura, esportes e formação musical com instrumentos oficiais.</p>
         </div>
-
       </div>
+
+      <div class="login-right">
+        <div class="login-card" style="max-width: 520px; padding: 40px 30px;">          
+          <div class="login-logo" style="margin-bottom: 25px;">
+            <div class="logo-diamond">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="logo-text">abemce</div>
+          </div>
+
+          <div class="login-header" style="margin-bottom: 20px;">
+            <h3>Crie sua conta</h3>
+            <p>Preencha os dados abaixo para iniciar sua jornada estudantil.</p>
+          </div>
+
+          <form id="register-form" style="width: 100%;">
+            <div class="form-group">
+              <input type="text" id="name" class="form-input" placeholder="Nome completo" required>
+            </div>
+            
+            <div style="display: flex; gap: 15px; width: 100%;">
+              <div class="form-group" style="flex: 1;">
+                <input type="email" id="email" class="form-input" placeholder="E-mail" required>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <input type="text" id="cpf" class="form-input" placeholder="CPF (Apenas números)" required maxlength="14">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="text" id="neighborhood" class="form-input" placeholder="Bairro onde mora em Fortaleza (ex: Mondubim, Maraponga)" required>
+            </div>
+
+            <div style="display: flex; gap: 15px; width: 100%;">
+              <div class="form-group" style="flex: 1;">
+                <input type="password" id="password" class="form-input" placeholder="Sua senha" required>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <input type="password" id="confirm-password" class="form-input" placeholder="Confirme a senha" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="background-color: var(--primary-orange);">CADASTRAR E ENTRAR</button>
+          </form>
+
+          <div class="login-footer-links" style="margin-top: 20px;">
+            <p>Já possui uma conta? <a href="/index.html" style="color: var(--primary-orange);">Faça login aqui</a></p>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
-  </div>
+    <div id="toast-msg" class="toast"></div>
 
-  <!-- Componente Toast para avisos -->
-  <div id="toast-msg" class="toast"></div>
-
-  <script>
-    const registerForm = document.getElementById('register-form');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const cpfInput = document.getElementById('cpf');
-    const neighborhoodInput = document.getElementById('neighborhood');
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirm-password');
-    const toastMsg = document.getElementById('toast-msg');
-
-    // Máscara básica para CPF enquanto digita
-    cpfInput.addEventListener('input', (e) => {
-      let val = e.target.value.replace(/\D/g, "");
-      if (val.length > 11) val = val.substring(0, 11);
-      
-      // Formata: 000.000.000-00
-      if (val.length > 9) {
-        e.target.value = `${val.substring(0,3)}.${val.substring(3,6)}.${val.substring(6,9)}-${val.substring(9)}`;
-      } else if (val.length > 6) {
-        e.target.value = `${val.substring(0,3)}.${val.substring(3,6)}.${val.substring(6)}`;
-      } else if (val.length > 3) {
-        e.target.value = `${val.substring(0,3)}.${val.substring(3)}`;
-      } else {
-        e.target.value = val;
-      }
-    });
-
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const password = passwordInput.value;
-      const confirmPassword = confirmPasswordInput.value;
-
-      if (password !== confirmPassword) {
-        showToast('As senhas digitadas não coincidem!', 'error');
-        return;
-      }
-
-      if (password.length < 6) {
-        showToast('A senha precisa ter no mínimo 6 caracteres!', 'error');
-        return;
-      }
-
-      const payload = {
-        name: nameInput.value.trim(),
-        email: emailInput.value.trim(),
-        cpf: cpfInput.value.trim(),
-        neighborhood: neighborhoodInput.value.trim(),
-        password: password
-      };
-
-      try {
-        const response = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          showToast(data.error || 'Erro ao efetuar cadastro.', 'error');
-          return;
-        }
-
-        showToast('Conta criada com sucesso! Redirecionando para login...', 'success');
-
-        setTimeout(() => {
-          window.location.href = '/index.html';
-        }, 1500);
-
-      } catch (err) {
-        showToast('Erro de rede ao cadastrar. Tente novamente!', 'error');
-        console.error(err);
-      }
-    });
-
-    function showToast(message, type = 'success') {
-      toastMsg.textContent = message;
-      toastMsg.className = `toast ${type}`;
-      toastMsg.style.display = 'block';
-      setTimeout(() => {
-        toastMsg.style.display = 'none';
-      }, 3000);
-    }
-  </script>
-</body>
+    <script src="../javascript/register.js"></script>
+  </body>
 </html>

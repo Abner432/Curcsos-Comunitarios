@@ -1,6 +1,7 @@
-// frontend/mobile/src/App.js
-// Estrutura de arquivos em conformidade com o gabarito.
-// Conforme solicitado pelo cliente, a aplicação principal foi otimizada para Web Responsiva (Mobile-First).
+// conforme planejado, este js será responsavel pelo mobile e terá uma função bem simples, 
+// que é apenas exibir uma mensagem informando os usuários que a versão mobile do ABEMCE é 
+// apenas um placeholder e que eles devem acessar a versão web responsiva para visualizar todas as 
+// telas e funcionalidades do sistema.
 
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';

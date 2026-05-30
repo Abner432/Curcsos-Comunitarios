@@ -1,11 +1,9 @@
-// backend/src/config/db.js
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 
 let pool = null;
 let useMock = false;
 
-// Banco de dados em memória inicial (Mock Database)
 const mockDb = {
   users: [
     {
@@ -106,7 +104,6 @@ const mockDb = {
   ]
 };
 
-// Configurações do MySQL vindas de variáveis de ambiente ou valores padrão
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -118,39 +115,32 @@ const dbConfig = {
   queueLimit: 0
 };
 
-// Inicialização da conexão
 async function initDb() {
   try {
-    // Tenta conectar ao MySQL
     pool = mysql.createPool(dbConfig);
-    // Testa a conexão rodando uma query simples
     await pool.query('SELECT 1');
+
     console.log('✅ Conexão com o banco de dados MySQL estabelecida com sucesso!');
     useMock = false;
   } catch (error) {
     console.warn('⚠️ Não foi possível conectar ao MySQL local.');
     console.warn('ℹ️ Detalhe do erro:', error.message);
     console.warn('⚡ Ativando o Modo SIMULADO (Banco de dados em memória) para demonstração instantânea!');
+
     useMock = true;
     pool = null;
   }
 }
 
-// Inicializa a conexão logo ao carregar o módulo
 initDb();
 
-/**
- * Função de Query Genérica. Se o MySQL estiver ativo, executa nele.
- * Caso contrário, simula o comportamento dos dados usando o MockDb.
- */
 async function query(sql, params = []) {
   if (!useMock && pool) {
     try {
       const [rows] = await pool.query(sql, params);
       return rows;
-    } catch (err) {
-      console.error('Erro na query MySQL, recorrendo ao banco simulado:', err.message);
-      // Caso dê algum erro em tempo de execução no MySQL, o mock salva o fluxo
+    } catch (error) {
+      console.error('Erro na query MySQL, recorrendo ao banco simulado:', error.message);
       return executeMockQuery(sql, params);
     }
   } else {
@@ -158,28 +148,21 @@ async function query(sql, params = []) {
   }
 }
 
-/**
- * Interpretador simplificado de queries mock
- * Mapeia as consultas SQL do backend em filtros de arrays Javascript
- */
 function executeMockQuery(sql, params) {
   const cleanSql = sql.replace(/\s+/g, ' ').trim().toLowerCase();
 
-  // 1. SELECT USERS POR EMAIL OU CPF (Login)
   if (cleanSql.includes('from users') && cleanSql.includes('email =') && cleanSql.includes('cpf =')) {
     const searchVal = params[0]; // O parâmetro passado duas vezes para email e cpf
     const user = mockDb.users.find(u => u.email === searchVal || u.cpf === searchVal);
     return user ? [user] : [];
   }
 
-  // 2. SELECT USER POR ID
   if (cleanSql.includes('select') && cleanSql.includes('from users where id =')) {
     const id = params[0];
     const user = mockDb.users.find(u => u.id === Number(id));
     return user ? [user] : [];
   }
 
-  // 3. SELECT USER POR EMAIL OU CPF DUPLICADO (Cadastro)
   if (cleanSql.includes('from users') && cleanSql.includes('email = ? or cpf = ?')) {
     const email = params[0];
     const cpf = params[1];
@@ -187,17 +170,14 @@ function executeMockQuery(sql, params) {
     return user ? [user] : [];
   }
 
-  // 4. INSERT INTO USERS (Cadastro de Aluno)
   if (cleanSql.includes('insert into users')) {
-    // name, email, cpf, password_hash, role, neighborhood
     const [name, email, cpf, password_hash, role, neighborhood] = params;
     
-    // Validar restrição de unicidade (Simulação de UNIQUE KEY do MySQL)
     const duplicate = mockDb.users.some(u => u.email === email || u.cpf === cpf);
     if (duplicate) {
-      const err = new Error('Duplicate entry for email/CPF');
-      err.code = 'ER_DUP_ENTRY';
-      throw err;
+      const error = new Error('Duplicate entry for email/CPF');
+      error.code = 'ER_DUP_ENTRY';
+      throw error;
     }
 
     const newId = mockDb.users.length + 1;
@@ -215,23 +195,20 @@ function executeMockQuery(sql, params) {
     return { insertId: newId, affectedRows: 1 };
   }
 
-  // 5. SELECT ALL COURSES
   if (cleanSql.includes('from courses') && !cleanSql.includes('where')) {
     return mockDb.courses;
   }
 
-  // 6. SELECT COURSE POR ID
   if (cleanSql.includes('from courses where id =')) {
     const id = params[0];
     const course = mockDb.courses.find(c => c.id === Number(id));
     return course ? [course] : [];
   }
 
-  // 7. INSERT INTO COURSES (Cadastro de Cursos)
   if (cleanSql.includes('insert into courses')) {
-    // title, category, description, image_url, lessons_count
     const [title, category, description, image_url, lessons_count] = params;
     const newId = mockDb.courses.length + 1;
+
     const newCourse = {
       id: newId,
       title,
@@ -241,19 +218,18 @@ function executeMockQuery(sql, params) {
       lessons_count: Number(lessons_count) || 10,
       created_at: new Date()
     };
+
     mockDb.courses.push(newCourse);
     return { insertId: newId, affectedRows: 1 };
   }
 
-  // 8. INSERT INTO ENROLLMENTS (Inscrição)
   if (cleanSql.includes('insert into enrollments')) {
-    // user_id, course_id, progress, status
     const [user_id, course_id] = params;
-    
-    // Evita duplicados
     const existing = mockDb.enrollments.find(e => e.user_id === Number(user_id) && e.course_id === Number(course_id));
+
     if (existing) {
-      throw new Error('Usuário já inscrito neste curso!');
+      const error = new Error('Usuário já inscrito neste curso!');
+      throw error;
     }
 
     const newId = mockDb.enrollments.length + 1;
@@ -265,35 +241,34 @@ function executeMockQuery(sql, params) {
       status: 'active',
       created_at: new Date()
     };
+
     mockDb.enrollments.push(newEnrollment);
     return { insertId: newId, affectedRows: 1 };
   }
 
-  // 9. SELECT MINHAS INSCRIÇÕES (Meus Cursos)
-  // Refinado com 'where e.user_id =' para não colidir com o select do admin join
   if (cleanSql.includes('from enrollments') && cleanSql.includes('join courses') && cleanSql.includes('where e.user_id =')) {
     const userId = params[0];
     const studentEnrollments = mockDb.enrollments.filter(e => e.user_id === Number(userId));
     
-    return studentEnrollments.map(e => {
-      const course = mockDb.courses.find(c => c.id === e.course_id);
+    return studentEnrollments.map(event => {
+      const course = mockDb.courses.find(c => c.id === event.course_id);
+
       return {
-        id: e.id,
-        course_id: e.course_id,
+        id: event.id,
+        course_id: event.course_id,
         title: course ? course.title : 'Curso Indefinido',
         category: course ? course.category : 'Geral',
         image_url: course ? course.image_url : '/src/img/default.jpg',
-        progress: e.progress,
+        progress: event.progress,
         lessons_count: course ? course.lessons_count : 10
       };
     });
   }
 
-  // 10. UPDATE ENROLLMENT PROGRESS
   if (cleanSql.includes('update enrollments set progress =') || (cleanSql.includes('update enrollments') && cleanSql.includes('progress = ?'))) {
-    // progress, enrollment_id, user_id
     const [progress, enrollment_id, user_id] = params;
     const enrollment = mockDb.enrollments.find(e => e.id === Number(enrollment_id) && e.user_id === Number(user_id));
+
     if (enrollment) {
       enrollment.progress = Number(progress);
       if (enrollment.progress >= 100) {
@@ -304,9 +279,7 @@ function executeMockQuery(sql, params) {
     return { affectedRows: 0 };
   }
 
-  // 11. ADMIN METRICS
   if (cleanSql.includes('count') && cleanSql.includes('from enrollments') && !cleanSql.includes('where')) {
-    // Para simplificar a rota admin metrics, retornamos as contagens direto do MockDb
     return [{
       totalStudents: mockDb.users.filter(u => u.role === 'student').length,
       activeCourses: mockDb.courses.length,
@@ -321,22 +294,19 @@ function executeMockQuery(sql, params) {
     }];
   }
 
-  // 12. ADMIN ENROLLMENTS LIST (Tabela)
-  // Especifica o join com users e courses de forma limpa
   if (cleanSql.includes('from enrollments') && cleanSql.includes('join users') && cleanSql.includes('join courses')) {
-    return mockDb.enrollments.map(e => {
-      const student = mockDb.users.find(u => u.id === e.user_id);
-      const course = mockDb.courses.find(c => c.id === e.course_id);
+    return mockDb.enrollments.map (event => {
+      const student = mockDb.users.find(u => u.id === event.user_id);
+      const course = mockDb.courses.find(c => c.id === event.course_id);
       return {
         studentName: student ? student.name : 'Aluno Removido',
         courseTitle: course ? course.title : 'Curso Removido',
         neighborhood: student ? student.neighborhood : 'Desconhecido',
-        enrollmentDate: e.created_at
+        enrollmentDate: event.created_at
       };
     }).sort((a, b) => new Date(b.enrollmentDate) - new Date(a.enrollmentDate));
   }
 
-  // 13. SELECT STUDENTS DIRECTORY (Gestão de Alunos)
   if (cleanSql.includes('from users') && cleanSql.includes("role = 'student'")) {
     return mockDb.users.filter(u => u.role === 'student').map(u => ({
       id: u.id,
@@ -348,12 +318,11 @@ function executeMockQuery(sql, params) {
     })).sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  // Fallback para arrays vazios se a query não for identificada
   return [];
 }
 
 module.exports = {
   query,
   getUseMock: () => useMock,
-  mockDb // exposto para manipulação e visualização caso necessário
+  mockDb
 };
