@@ -6,6 +6,12 @@ A plataforma possui dois tipos de usuários:
 * **Administrador:** Cadastra novos cursos, acompanha estatísticas pedagógicas em tempo real, visualiza as inscrições mais recentes e exporta relatórios pedagógicos.
 * **Aluno:** Visualiza os cursos disponíveis organizados por categorias, se inscreve em novas qualificações e acompanha seu progresso em tempo real marcando aulas assistidas de forma interativa.
 
+## Contribuição para a ODS 11
+
+A plataforma amplia o acesso da comunidade a cursos, qualificação profissional e atividades sociais, fortalecendo a inclusão e a participação comunitária.
+
+ODS 11 – Cidades e Comunidades Sustentáveis.
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
